@@ -1,0 +1,39 @@
+{%extends 'base.html'%}
+{%block content%}
+    {%if user%}
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{user.profile.profile_pic.url}}">
+        <div class="media-body">
+          {%if user.renter%}
+          <h2 class="account-heading">{{user.renter.buisiness_name}}</h2>
+          {%endif%}
+          {%if user.profile.username%}
+          <h4 class="text-secondary">{{user.profile.username}}</h4>
+          {%else%}
+          <h5 class="text-secondary">{{user.profile.first_name}} {{user.profile.last_name}}</h5>
+          {%endif%}
+          <p class="text-secondary">{{user.email}}</p>
+        </div>
+      </div>
+      <form method="POST" enctype="multipart/form-data">
+        {%csrf_token%}
+        <fieldset class="form-group">
+          {%if user.renter%}
+            <legend class="border-bottom mb-4">Update Renter Profile</legend>
+          {%else%}
+            <legend class="border-bottom mb-4">Create Renter Profile</legend>
+          {%endif%}
+            {{renter_profile_form.as_p}}
+        </fieldset>
+        <div class="form-group">
+            {%if user.renter%}
+              <button class="btn btn-outline-info" type="submit">Update</button>
+            {%else%}
+              <button class="btn btn-outline-info" type="submit">Create</button>
+            {%endif%}
+          </div>
+      </form>    
+    </div>
+    {% endif%}
+{%endblock%}

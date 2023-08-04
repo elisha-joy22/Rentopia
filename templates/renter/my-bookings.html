@@ -1,0 +1,51 @@
+{%extends 'base.html'%}
+{%block content%}
+    {%for booking in bookings%}
+        {%if booking.booking_status == 'cancelled_user' or booking.booking_status == 'cancelled_renter' %}
+            <article class="media content-section" style='background-color:#FFC6AC'>    
+        {%else%}
+            <article class="media content-section" style='background-color:#C8E4B2;'>
+        {%endif%}
+            <div class="media-body">
+            <div class="article-metadata">
+                <div class="article-metadata d-flex justify-content-between align-items-center">
+                    <div >
+                        <img class='rounded-circle article-img' src="{{booking.vehicle.image1.url}}">
+                        <a class="mr-2" href="#">{{booking.vehicle.vehicle.make}} {{booking.vehicle.vehicle.model}}</a>
+                        <a class="article-title">{{booking.vehicle.registration_number}}</a>
+                        <small class="text-muted"> {{booking.vehicle.location}} </small>
+                    </div>
+                    <div>
+                        {%if booking.booking_status == 'booked'%}
+                        <small><a class='btn btn-success' style='margin-left:2%;'>Booked</a></small>
+                        {%else%}
+                        <small><a class='btn btn-warning' style='margin-left:2%;' >{{booking.booking_status}}</a></small>
+                        {%endif%}
+                        <!--<a class="btn btn-danger btn-sm mt-1 mb-1" href="#">Delete</a>-->
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4 class="article-title">Customer : {{booking.user.profile.first_name}} {{booking.user.profile.last_name}}</h4>
+
+            <h5>Email : {{booking.user.email}}</h5>
+            <p>Phone : {{booking.user.profile.phone}}</p>
+            <p>
+                <strong>Booked from: </strong>
+                <a>{{booking.booking_from}}</a>
+            </p>
+            <p>
+                <strong>Booking Till: </strong>
+                <a >{{booking.booking_till}}</a></a>
+            </p>
+            <p>Booked on : {{booking.booked_date}}</p>
+            <p>Rent for initial 200 km : Rs {{booking.vehicle.vehicle.rent.fixed_price}}</p>
+            <p>Rent per extra km : Rs {{booking.vehicle.vehicle.rent.per_km_rate}}</p>
+            {%if booking.booking_status == 'booked'%}
+            <a class='btn btn-warning' href="{%url 'cancel-booking' booking.id%}">Cancel Booking</a>
+            {%endif%}
+        </div>
+    </div>
+        </article>
+    {%endfor%}
+{%endblock%}

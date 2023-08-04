@@ -1,0 +1,31 @@
+{%extends 'base.html'%}
+{%block content%}
+    {% for vehicle in vehicles%}
+        <article class="media content-section">
+            <div class="media-body">
+            <div class="article-metadata d-flex justify-content-between align-items-center">
+            <div class="article-metadata">
+                <img class='rounded-circle vehicle-img' src="{{vehicle.image1.url}}">
+                <a class="mr-2">{{ vehicle.type }}</a>
+                <small class="text-muted">{{ vehicle.fuel_type }}</small>
+            </div>
+            <div>
+            <a href="{%url 'view-bookings' vehicle.id%}" class="btn btn-success">View Bookings</a>
+            <a href="{%url 'vehicle-detail' vehicle.id%}" class="btn btn-primary">View detail</a>
+            <a href="{%url 'vehicle-delete' vehicle.id %}" class="btn btn-danger">Delete</a>
+            </div>
+            </div>
+            <div style="display:inline-block;">
+            <h4 style="display:inline;">{{ vehicle.vehicle.make }}</h3>
+            <h3 style="display:inline;">{{ vehicle.vehicle.model }}</h2>
+            <p class="article-content" style="display:inline;"> - {{ vehicle.vehicle.transmission }}</p>
+            </div>
+            {%if user.renter%}
+                <h4 style="">{{ vehicle.registration_number }}</h3>
+            {%endif%}
+            <p>Rent for initial 200 km : Rs {{vehicle.vehicle.rent.fixed_price}}/-</p>
+            <p>Rent per extra km : Rs {{vehicle.vehicle.rent.per_km_rate}}/-</p>
+            </div>
+        </article>
+    {%endfor%}
+{%endblock%}

@@ -1,0 +1,28 @@
+{%extends 'base.html'%}
+{%block content%}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">You sure to delete vehicle!</legend>
+                <div class="article-metadata d-flex justify-content-between align-items-center">
+                    <div>
+                        <p>{{vehicle.make_and_model}}</p>
+                        <p>{{vehicle.registration_number}}</p>
+                    </div>
+                    <div>
+                        <img class='rounded-circle account-img' src={{vehicle.image1.url}}/>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-outline-info" href="{%url 'renter-vehicle-list'%}" type="">Go Back</a>
+                        <form method='POST'>
+                        <input type='hidden' name='vehicle_credential_id'  value='{{vehicle.id}}'/>
+                        </form>
+                        <button class="btn btn-outline-danger" type="submit">Delete</button>
+                    </div>
+                </div>
+                
+            </fieldset>
+
+    </div>
+{%endblock%}
