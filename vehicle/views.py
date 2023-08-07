@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,FileResponse
@@ -14,6 +15,7 @@ from vehicle.models import Vehicle,VehicleCredentials,Rent
 from vehicle.forms import VehicleForm,VehicleCredentialsForm
 from accounts.models import CustomUser
 from renters.models import Renter
+from payments.models import Booking
 
 User = get_user_model()
 
@@ -43,6 +45,12 @@ class VehicleCredentialDetailView(DetailView,LoginRequiredMixin):
         pk = self.kwargs.get('pk')
         return VehicleCredentials.objects.filter(id=pk)
     
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        vehicle = self.object
+        booking = Booking.objects.filter(vehicle=vehicle,booking_status='booked').order_by('-booking_till').first()
+        context['booking'] = booking 
+        return context   
 
 
 def download_documents_pdf(request,kl_number,pdf_type):

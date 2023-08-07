@@ -18,6 +18,15 @@ class Booking(models.Model):
                                         ],
                                     default='booked'
                 )
+    journey_status = models.CharField(max_length=20,
+                                      choices=[
+                                       ('incomplete','Incomplete'),
+                                       ('travelling','Travelling'),
+                                       ('complete','Complete'),   
+                                      ],
+                                      default='incomplete'
+                    )
+    
     cancellation_reason = models.CharField(max_length=50,default=None,null=True,blank=True)
 
 

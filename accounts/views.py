@@ -68,7 +68,7 @@ class RegisterUserView(View):
             )
             return redirect('user-login')
         else: 
-            return HttpResponse('user-register')
+            return redirect('user-register')
     
 class LogoutUserView(View,LoginRequiredMixin):
     def get(self,request):

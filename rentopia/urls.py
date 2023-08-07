@@ -19,8 +19,10 @@ from django.urls import path,include
 
 from rentopia import settings
 from django.conf.urls.static import static
+from accounts.views import LoginUserView
 
 urlpatterns = [
+    path('',LoginUserView.as_view()),
     path('admin/', admin.site.urls),
     path('user/', include('users.urls')),
     path('accounts/', include('accounts.urls')),

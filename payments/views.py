@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 
 from vehicle.models import VehicleCredentials
+from payments.models import Booking
 from payments.forms import BookingForm
 
 
@@ -43,6 +44,16 @@ class BookingView(View):
                 return redirect('vehicle-list')
             print("6")
             if booking_instance.vehicle.available:
+                try:
+                    booking = Booking.objects.filter(vehicle=booking_instance.vehicle,booking_status='booked').order_by('-booking_till').first()
+                    print(booking.booking_till)
+                    print(booking_instance.booking_from)
+                except:
+                    messages.error(request,'Internal Server Error - Booking failed!')
+                    return redirect('vehicle-list')
+                if booking_instance.booking_from<=booking.booking_till:
+                    messages.error(request,'Please select a different date and time - Booking failed!')
+                    return redirect('vehicle-detail',pk=booking_instance.vehicle.id)                    
                 booking_instance.vehicle.booked = True
                 booking_instance.vehicle.save()
                 booking_instance.booking_status = 'booked'
