@@ -3,6 +3,7 @@ from vehicle import views
 
 
 urlpatterns = [
+    path('serializer/',views.VehicleSerializerView.as_view(),name='serializer'),
     path('',views.VehicleListView.as_view(),name='vehicle-types-list'),
     path('my-vehicles/',views.VehicleCredentialListView.as_view(),name='vehicle-list'),
     path('<int:pk>/info',views.VehicleCredentialDetailView.as_view(),name='vehicle-detail'),

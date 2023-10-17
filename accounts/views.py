@@ -19,7 +19,6 @@ class LoginUserView(View):
         print(email)
         print(password)
         user = authenticate(request,email=email,password=password)
-        print(user)
         if user != None:    
             login(request,user)
             #if user._is_customer:

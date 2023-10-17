@@ -59,6 +59,9 @@ class CustomUser(AbstractBaseUser):
     def has_module_perms(self,app_label):
         return True
     
+    def get_all_permissions(self):
+        return [] 
+    
     @property
     def is_staff(self):
         return self.staff

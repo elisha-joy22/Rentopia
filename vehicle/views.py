@@ -1,7 +1,7 @@
 from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect
-from django.http import HttpResponse,FileResponse
+from django.http import HttpResponse,FileResponse,JsonResponse
 from django.views.generic import View,ListView,DetailView
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -16,6 +16,7 @@ from vehicle.forms import VehicleForm,VehicleCredentialsForm
 from accounts.models import CustomUser
 from renters.models import Renter
 from payments.models import Booking
+from vehicle.serializers import VehicleCredentialsSerializer,VehicleCredentialModelSerializer
 
 User = get_user_model()
 
@@ -28,7 +29,7 @@ class VehicleListView(ListView,LoginRequiredMixin):
     #def get_queryset(self):
     #    return Vehicle.objects.filter(availability='available')
 
-class VehicleCredentialListView(ListView,LoginRequiredMixin):
+class VehicleCredentialListView(ListView):
     model = VehicleCredentials
     template_name = 'vehicle/vehicle_credential_list.html'
     context_object_name = 'vehicle_credentials'
@@ -154,3 +155,9 @@ class VehicleDeleteView(View,LoginRequiredMixin):
         messages.success(request,'Vehicle and details was deleted successfully!')
         return redirect('vehicle-list')
     
+
+class VehicleSerializerView(View):
+    def get(self,request):
+        vehicles = VehicleCredentials.objects.all()
+        serializer = VehicleCredentialModelSerializer(vehicles,many=True)
+        return JsonResponse(serializer.data,safe=False)
