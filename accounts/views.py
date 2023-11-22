@@ -30,7 +30,7 @@ class LoginUserView(View):
             return redirect('user-home')
         else:
             messages.error(request,'Login credentials invalid')
-            return redirect("login")
+            return redirect("user-login")
 
     def get(self,request):
         if request.user.is_authenticated:
